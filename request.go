@@ -8,18 +8,18 @@ import (
 	"net/url"
 )
 
-const URI = "https://jsonplaceholder.typicode.com/"
+const URI = "https://jsonplaceholder.typicode.com"
 
 type Post struct {
-	UserID 	int `json:"userId"`
-	ID 		int `json:"id"`
-	Title 	string `json:"title"`
-	Body 	string `json:"body"`
+	UserID int    `json:"userId"`
+	ID     int    `json:"id"`
+	Title  string `json:"title"`
+	Body   string `json:"body"`
 }
 
 type Posts []Post
 
-func get(path string, param url.Values)([]byte, error) {
+func get(path string, param url.Values) ([]byte, error) {
 	uri, err := url.Parse(URI + path)
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func post(path string, body interface{}) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	
+
 	req.Header.Set("Content-Type", "application/json")
 
 	cl := &http.Client{}

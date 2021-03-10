@@ -8,7 +8,7 @@ import (
 )
 
 func TestGetAll(t *testing.T) {
-	getPosts, err := get("posts", nil)
+	getPosts, err := get("/posts", nil)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -17,26 +17,35 @@ func TestGetAll(t *testing.T) {
 
 func TestPost(t *testing.T) {
 	postBody := map[string]string{
-		"title": "foo",
-		"body": "bar",
+		"title":  "foo",
+		"body":   "bar",
 		"userId": "1",
 	}
 
-	createPost, err := post("posts", postBody)
+	createPost, err := post("/posts", postBody)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
 	log.Println(string(createPost))
 }
-func TestGetOne(t *testing.T) {
-	getOne, err := get("posts", url.Values{
-		"id": {strconv.Itoa(1)},
-	})
-	if err != nil {
-		log.Fatalln(err)
+func TestGetOneWithId(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		getOne, err := get("/posts/"+strconv.Itoa(i), nil)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		log.Println(string(getOne))
 	}
-	log.Println(string(getOne))
 }
-
-
+func TestGetOneWithParam(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		getOne, err := get("/posts", url.Values{
+			"id": {strconv.Itoa(i)},
+		})
+		if err != nil {
+			log.Fatalln(err)
+		}
+		log.Println(string(getOne))
+	}
+}
